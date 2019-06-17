@@ -1,6 +1,15 @@
 (ns workframe-bakery.client
   (:require
-    [reagent.core :as r]))
+   [reagent.core :as r]
+   [ajax.core :as http]))
+
+(def treats (r/atom []))
+
+(defn get-treats! []
+  (http/GET "/treats"
+            {:handler (fn [resp] (reset! treats (:treats resp)))
+             :error-handler (fn [e] (.warn js/console "treats error" e))
+             :response-format :json, :keywords? true}))
 
 (defn main-app-component
   []
@@ -13,4 +22,5 @@
 (defn ^:export run
   []
   (enable-console-print!)
+  (get-treats!)                                     ;
   (reload))
