@@ -20,7 +20,7 @@ Given the short lead time, and the short lifespan of the code, I made certain tr
 * **Testing:**  Given the timeline, and short lifespan of the code, I didn't write any tests. That goes against every fiber of my being. However, I was able to validate my work via testing in the REPL.  
 I tried setting up front end testing in a local branch, but the framework was new to me. With time constraints I wasn't able to integrate it into the stack.  
 My preferred clojure test library is midje, and I am familiar with both Travis CI and Jenkins for continuous integration.  
-* **Incorporating Databases:** Typically tills will check a database to make sure that what the user is trying to buy is actually in stock. Moreover, each till will write to the database once a sale is complete to update inventory. There are typically multiple tills trying read/write to a database. Below is an ERD diagram I made for a till program I made in a databases class. I wasn't about to implement all of this, but it would have been nice to use a database to keep an updated inventory.
+* **Incorporating Databases:** Typically tills will check a database to make sure that what the user is trying to buy is actually in stock. Moreover, each till will write to the database once a sale is complete to update inventory. There are typically multiple tills trying to read/write to a database. Below is an ERD diagram I made for a till program I made in a databases class. I wasn't about to implement all of this, but it would have been nice to use a database to keep an updated inventory.
 * **Incorporating Pictures:** I would have been nice to the pictures in the JSON. I would have tried to make a separate element that reads from `@treats` and creates images.
 
 ![Till-ERD](lab9ERD.png)
