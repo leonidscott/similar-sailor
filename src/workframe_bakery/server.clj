@@ -45,4 +45,7 @@
 
 (defn -main
   [& args]
+  (println (-> "products-data.json"
+               json/get-edn
+               json/unmarshal-treats))
   (run-server))
