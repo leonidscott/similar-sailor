@@ -56,9 +56,17 @@
     [:li name
      ", Individual Price: " (button (str "$" price) #(add-to-cart id))]))
 
+(defn treat-list []
+  [:ul
+   (for [item @treats]
+     ^{:key (:id item)} (treat-item item))])
+
 (defn main-app-component
   []
-  [:h1 "Hello, world!"])
+  [:div
+   [:h1 "Bakery"]
+   (treat-list)
+   [:p (str @cart)]])
 
 (defn reload
   []
