@@ -41,6 +41,21 @@
             price))
       (* quantity price))))
 
+(defn button
+  [value on-click-fn & args]
+  [:input {:type "button"
+           :value value
+           :on-click #(on-click-fn args)}])
+
+(defn treat-item
+  [{:keys [id name price] {bulk-price :totalPrice bulk-quantity :amount} :bulkPricing}]
+  (if bulk-price
+    [:li name
+     ", Individual Price: " (button (str "$" price) #(add-to-cart id))
+     ", Bulk Price: (" bulk-quantity ") " (button (str "$" bulk-price) #(add-to-cart id))]
+    [:li name
+     ", Individual Price: " (button (str "$" price) #(add-to-cart id))]))
+
 (defn main-app-component
   []
   [:h1 "Hello, world!"])
