@@ -94,6 +94,7 @@
 
 (defn reload
   []
+  (get-treats!)
   (r/render-component [main-app-component] (.getElementById js/document "app")))
 
 (defn ^:export run
