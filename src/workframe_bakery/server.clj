@@ -30,8 +30,9 @@
 
 (def app-routes
   (routes
-    (GET "/" [] (render-home-page))
-    (route/not-found "not found")))
+   (GET "/" [] (render-home-page))
+   (GET "/treats" [] (json/slurp-json "products-data.json"))
+   (route/not-found "not found")))
 
 (def handler
   (as-> app-routes h
@@ -47,5 +48,5 @@
   [& args]
   (println (-> "products-data.json"
                json/get-edn
-               json/unmarshal-treats))
+               json/marshal-treats))
   (run-server))
