@@ -47,7 +47,7 @@
            :value value
            :on-click #(on-click-fn args)}])
 
-(defn treat-item
+(defn treat
   [{:keys [id name price] {bulk-price :totalPrice bulk-quantity :amount} :bulkPricing}]
   (if bulk-price
     [:li name
@@ -59,7 +59,7 @@
 (defn treat-list []
   [:ul
    (for [item @treats]
-     ^{:key (:id item)} (treat-item item))])
+     ^{:key (:id item)} (treat item))])
 
 (defn main-app-component
   []
