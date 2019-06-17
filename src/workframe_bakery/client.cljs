@@ -72,13 +72,25 @@
    (for [item @cart]
      ^{:key (:id item)} (cart-item item))])
 
+(defn total-price []
+  [:h3 "Total: $"
+       (->> (map #(price (:id %)) @cart)
+            (reduce +))])
+
+(defn checkout-clear-buttons []
+  [:li
+   (button "Checkout" #(reset! cart []))
+   (button "Clear" #(reset! cart []))])
+
 (defn main-app-component
   []
   [:div
    [:h1 "Bakery"]
    (treat-list)
    [:h2 "Cart"]
-   (display-cart)])
+   (display-cart)
+   (total-price)
+   (checkout-clear-buttons)])
 
 (defn reload
   []
