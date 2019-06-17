@@ -10,7 +10,8 @@
     [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
     [ring.middleware.reload :refer [wrap-reload]]
     [ring.middleware.webjars :refer [wrap-webjars]]
-    [ring.util.response :refer [response]]))
+    [ring.util.response :refer [response]]
+    [workframe-bakery.json-reader :as json]))
 
 (defn render-home-page
   []
@@ -44,4 +45,7 @@
 
 (defn -main
   [& args]
+  (println (-> "products-data.json"
+               json/get-edn
+               json/unmarshal-treats))
   (run-server))

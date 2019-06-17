@@ -11,7 +11,9 @@
                  [reagent "0.7.0"]
                  [ring "1.6.2"]
                  [ring-webjars "0.2.0"]
-                 [ring/ring-defaults "0.3.1" :exclusions [javax.servlet/servlet-api]]]
+                 [ring/ring-defaults "0.3.1" :exclusions [javax.servlet/servlet-api]]
+                 [clojure-io "1.0.0-SNAPSHOT"]
+                 [org.clojure/data.json "0.2.6"]]
 
   :plugins       [[lein-cljsbuild "1.1.7"]
                   [lein-environ "1.1.0"]
