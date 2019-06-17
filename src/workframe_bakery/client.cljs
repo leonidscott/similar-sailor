@@ -61,12 +61,24 @@
    (for [item @treats]
      ^{:key (:id item)} (treat item))])
 
+(defn cart-item
+  [{:keys [id quantity]}]
+  [:li (-> (get-item-by-id @treats id) :name)
+   ": Quantity: " quantity
+   ", Price: $" (price id)])
+
+(defn display-cart []
+  [:ul
+   (for [item @cart]
+     ^{:key (:id item)} (cart-item item))])
+
 (defn main-app-component
   []
   [:div
    [:h1 "Bakery"]
    (treat-list)
-   [:p (str @cart)]])
+   [:h2 "Cart"]
+   (display-cart)])
 
 (defn reload
   []
