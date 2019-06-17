@@ -29,6 +29,18 @@
       (swap! cart update-in [index :quantity] inc)
       (swap! cart conj {:id id :quantity 1}))))
 
+(defn price
+  [id]
+  (let [{price :price
+         {bulk-price :totalPrice bulk-quantity :amount} :bulkPricing} (get-item-by-id @treats id)
+        {:keys [quantity] :or {quantity 0}} (get-item-by-id @cart id)]
+    (if bulk-quantity                           ;preventing division by nil
+      (+ (* (-> (/ quantity bulk-quantity) int) ;price = (quantity/bulk-quantity) bulk-price + (quantity % bulk-quantity) price
+            bulk-price)
+         (* (mod quantity bulk-quantity)
+            price))
+      (* quantity price))))
+
 (defn main-app-component
   []
   [:h1 "Hello, world!"])
