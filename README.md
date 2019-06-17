@@ -13,7 +13,7 @@ This isn't the first time I have built a front to back clojure web app, but it i
 
 I used Clojure's io for reading in the json file, and AJAX for the GET request on the front.
 
-It is worth noting that most of the specific tooling is still new to me. I have played around with React and Reagent before, but only in small projects such as this. It has been a lot of learning, and a tremendous amount of fun!  
+It is worth noting that most of the specific tooling is still new to me. I have played around with React and Reagent before, but only in small projects such as this. This has been a lot of learning, and a tremendous amount of fun!  
 
 ### Things for me to improve on
 Given the short lead time, and the short lifespan of the code, I made certain trade offs. Here were some things, given more time I would address:  
