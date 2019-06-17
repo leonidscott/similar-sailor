@@ -5,15 +5,68 @@
 
 (def treats (r/atom []))
 
+(def cart (r/atom []))
+
 (defn get-treats! []
   (http/GET "/treats"
             {:handler (fn [resp] (reset! treats (:treats resp)))
              :error-handler (fn [e] (.warn js/console "treats error" e))
              :response-format :json, :keywords? true}))
 
+(defn get-item-by-id
+  "returns first map with matching id when datastucture is:
+  [{:id ~ ...} {:id~ ....} ...]
+  ASSUMPTION FOR CORRECT BEHAVOIR: id's in maps are unique"
+  [vec-of-maps id]
+  (-> (filter #(= id (:id %)) vec-of-maps)
+      first))
+
+(defn add-to-cart
+  [id]
+  (let [index (->> (get-item-by-id @cart id)
+                   (.indexOf @cart))]
+    (if (> index -1)
+      (swap! cart update-in [index :quantity] inc)
+      (swap! cart conj {:id id :quantity 1}))))
+
+(defn price
+  [id]
+  (let [{price :price
+         {bulk-price :totalPrice bulk-quantity :amount} :bulkPricing} (get-item-by-id @treats id)
+        {:keys [quantity] :or {quantity 0}} (get-item-by-id @cart id)]
+    (if bulk-quantity                           ;preventing division by nil
+      (+ (* (-> (/ quantity bulk-quantity) int) ;price = (quantity/bulk-quantity) bulk-price + (quantity % bulk-quantity) price
+            bulk-price)
+         (* (mod quantity bulk-quantity)
+            price))
+      (* quantity price))))
+
+(defn button
+  [value on-click-fn & args]
+  [:input {:type "button"
+           :value value
+           :on-click #(on-click-fn args)}])
+
+(defn treat-item
+  [{:keys [id name price] {bulk-price :totalPrice bulk-quantity :amount} :bulkPricing}]
+  (if bulk-price
+    [:li name
+     ", Individual Price: " (button (str "$" price) #(add-to-cart id))
+     ", Bulk Price: (" bulk-quantity ") " (button (str "$" bulk-price) #(add-to-cart id))]
+    [:li name
+     ", Individual Price: " (button (str "$" price) #(add-to-cart id))]))
+
+(defn treat-list []
+  [:ul
+   (for [item @treats]
+     ^{:key (:id item)} (treat-item item))])
+
 (defn main-app-component
   []
-  [:h1 "Hello, world!"])
+  [:div
+   [:h1 "Bakery"]
+   (treat-list)
+   [:p (str @cart)]])
 
 (defn reload
   []
