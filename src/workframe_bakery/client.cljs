@@ -27,7 +27,7 @@
                    (.indexOf @cart))]
     (if (> index -1)
       (swap! cart update-in [index :quantity] + quantity)
-      (swap! cart conj {:id id :quantity 1}))))
+      (swap! cart conj {:id id :quantity quantity}))))
 
 (defn price
   [id]
