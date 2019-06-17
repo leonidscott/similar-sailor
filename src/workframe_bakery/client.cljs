@@ -22,11 +22,11 @@
       first))
 
 (defn add-to-cart
-  [id]
+  [id quantity]
   (let [index (->> (get-item-by-id @cart id)
                    (.indexOf @cart))]
     (if (> index -1)
-      (swap! cart update-in [index :quantity] inc)
+      (swap! cart update-in [index :quantity] + quantity)
       (swap! cart conj {:id id :quantity 1}))))
 
 (defn price
@@ -51,10 +51,10 @@
   [{:keys [id name price] {bulk-price :totalPrice bulk-quantity :amount} :bulkPricing}]
   (if bulk-price
     [:li name
-     ", Individual Price: " (button (str "$" price) #(add-to-cart id))
-     ", Bulk Price: (" bulk-quantity ") " (button (str "$" bulk-price) #(add-to-cart id))]
+     ", Individual Price: " (button (str "$" price) #(add-to-cart id 1))
+     ", Bulk Price: (" bulk-quantity ") " (button (str "$" bulk-price) #(add-to-cart id bulk-quantity))]
     [:li name
-     ", Individual Price: " (button (str "$" price) #(add-to-cart id))]))
+     ", Individual Price: " (button (str "$" price) #(add-to-cart id 1))]))
 
 (defn treat-list []
   [:ul
